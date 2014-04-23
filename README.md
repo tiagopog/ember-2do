@@ -3,7 +3,7 @@
 ## Como fazer o teste
 Leia o Briefing abaixo, faça um fork deste projeto e inclua sua aplicação nele.
 
-Quando tudo estiver pronto, envie um email
+Quando tudo estiver pronto, envie um email para:
 [rh@agendabeleza.com.br](rh@agendabeleza.com.br)
 
 
@@ -25,9 +25,6 @@ está ou não concluída. Um checkbox ao lado dela seria o ideal.
 
 Quando todas as tarefas são concluídas, o projeto deverá aparecer como concluído
 também, já que não há mais nada para fazer por ali.
-
-**Dentro da pasta wireframes temos algumas imagens que podem te ajudar a pensar na
-interface.**
 
 
 ## Como avaliaremos você
