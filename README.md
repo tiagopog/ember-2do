@@ -1,5 +1,3 @@
-# Agenda Beleza
-
 ## Como fazer o teste
 Leia o Briefing abaixo, faça um fork deste projeto e inclua sua aplicação nele.
 
