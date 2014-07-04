@@ -1,14 +1,27 @@
 require 'rails_helper'
 
 RSpec.describe User, type: :model do
+  subject(:user) { FactoryGirl.create(:user) }
   let(:gravatar_regex) { %r{http://www.gravatar.com/avatar/\w+}i }
   let(:image_regex) { %r{(^http{1}[s]?://([w]{3}\.)?.+\.(jpg|jpeg|png|gif)(\?.+)?$)}i }
 
   context 'when the object is valid' do
-    subject(:user) { FactoryGirl.create(:user) }
-    
     it { expect(user).to be_valid }
+    it { expect(user.name).to be_kind_of(String) }
+    it { expect(user.email).to be_kind_of(String) }
     it { expect(user.avatar_url).to match image_regex }
+  end
+
+  context 'when they have projects and tasks' do
+    subject(:user) { FactoryGirl.create(:user_with_projects) }
+    
+    it 'has many project' do
+      expect(user.projects.size).to eq(3)
+    end
+
+    it 'has many tasks through a project' do
+      expect(user.projects.first.tasks.size).to eq(3)
+    end
   end
 
   context 'when a required field is empty' do
@@ -38,16 +51,14 @@ RSpec.describe User, type: :model do
 
   describe '#avatar' do
     context 'when avatar_url is set' do
-      subject(:user) { FactoryGirl.build(:user) }
-
-      it { expect(user.avatar.is_a?(String)).to eq(true) }
+      it { expect(user.avatar).to be_kind_of(String) }
       it { expect(user.avatar).to match image_regex }
     end
 
     context 'when avatar_url is not set' do
       subject(:user) { FactoryGirl.build(:user, avatar_url: nil) }
 
-      it { expect(user.avatar.is_a?(String)).to eq(true) }
+      it { expect(user.avatar).to be_kind_of(String) }
       it 'gets the image from Gravatar' do
         expect(user.avatar).to match gravatar_regex
       end
@@ -56,7 +67,7 @@ RSpec.describe User, type: :model do
 
   describe '#gravatar' do
     it 'gets the image from Gravatar' do
-      expect(FactoryGirl.build(:user).gravatar).to match gravatar_regex
+      expect(user.gravatar).to match gravatar_regex
     end
   end
 end
