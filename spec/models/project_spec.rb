@@ -17,7 +17,7 @@ RSpec.describe Project, type: :model do
     end
   end
 
-  context 'when object is not consistent' do
+  context 'when validating its data' do
     it 'is invalid without a name' do
       expect(FactoryGirl.build(:project, name: nil)).to_not be_valid
     end
@@ -32,7 +32,7 @@ RSpec.describe Project, type: :model do
     end
 
     it 'is invalid without an author' do
-      expect { FactoryGirl.create(:project, user_id: nil) }.to raise_error(ActiveRecord::RecordInvalid)
+      expect { FactoryGirl.create(:project, author: nil) }.to raise_error(ActiveRecord::RecordInvalid)
     end
   end
 end

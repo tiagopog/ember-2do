@@ -1,11 +1,11 @@
-# Read about factories at https://github.com/thoughtbot/factory_girl
+require 'faker'
 
 FactoryGirl.define do
-  factory :task do
-    project nil
-    name "MyString"
-    description "MyText"
-    done false
-    priority 1
+  factory :task do |f|
+    f.project
+    f.name { Faker::Name.name }
+    f.description Faker::Lorem.sentence
+    f.done false
+    f.priority :medium
   end
 end

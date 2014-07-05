@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140704021451) do
+ActiveRecord::Schema.define(version: 20140705064552) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -31,8 +31,8 @@ ActiveRecord::Schema.define(version: 20140704021451) do
     t.integer  "project_id"
     t.string   "name"
     t.text     "description"
-    t.boolean  "done"
-    t.integer  "priority"
+    t.boolean  "done",        default: false
+    t.integer  "priority",    default: 2
     t.datetime "created_at"
     t.datetime "updated_at"
   end
@@ -44,12 +44,9 @@ ActiveRecord::Schema.define(version: 20140704021451) do
   create_table "users", force: true do |t|
     t.string   "name"
     t.string   "email"
-    t.text     "token"
     t.string   "avatar_url"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
-
-  add_index "users", ["token"], name: "index_users_on_token", using: :btree
 
 end
