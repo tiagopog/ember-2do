@@ -11,10 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140705064552) do
-
-  # These are extensions that must be enabled in order to support this database
-  enable_extension "plpgsql"
+ActiveRecord::Schema.define(version: 20140705064906) do
 
   create_table "projects", force: true do |t|
     t.string   "name"
@@ -24,8 +21,18 @@ ActiveRecord::Schema.define(version: 20140705064552) do
     t.string   "slug"
   end
 
-  add_index "projects", ["slug"], name: "index_projects_on_slug", using: :btree
-  add_index "projects", ["user_id"], name: "index_projects_on_user_id", using: :btree
+  add_index "projects", ["slug"], name: "index_projects_on_slug"
+  add_index "projects", ["user_id"], name: "index_projects_on_user_id"
+
+  create_table "sessions", force: true do |t|
+    t.integer  "user_id"
+    t.string   "token"
+    t.datetime "expires_at"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "sessions", ["user_id"], name: "index_sessions_on_user_id"
 
   create_table "tasks", force: true do |t|
     t.integer  "project_id"
@@ -37,9 +44,9 @@ ActiveRecord::Schema.define(version: 20140705064552) do
     t.datetime "updated_at"
   end
 
-  add_index "tasks", ["done", "project_id"], name: "index_tasks_on_done_and_project_id", using: :btree
-  add_index "tasks", ["priority", "project_id"], name: "index_tasks_on_priority_and_project_id", using: :btree
-  add_index "tasks", ["project_id"], name: "index_tasks_on_project_id", using: :btree
+  add_index "tasks", ["done", "project_id"], name: "index_tasks_on_done_and_project_id"
+  add_index "tasks", ["priority", "project_id"], name: "index_tasks_on_priority_and_project_id"
+  add_index "tasks", ["project_id"], name: "index_tasks_on_project_id"
 
   create_table "users", force: true do |t|
     t.string   "name"
@@ -47,6 +54,7 @@ ActiveRecord::Schema.define(version: 20140705064552) do
     t.string   "avatar_url"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.string   "token"
   end
 
 end

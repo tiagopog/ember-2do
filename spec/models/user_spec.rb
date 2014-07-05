@@ -9,6 +9,8 @@ RSpec.describe User, type: :model do
     it { expect(user).to be_valid }
     it { expect(user.name).to be_kind_of(String) }
     it { expect(user.email).to be_kind_of(String) }
+    it { expect(user.token).to be_kind_of(String) }
+    it { expect(user.token.size).to be(32) }
     it { expect(user.avatar_url).to match image_regex }
   end
 
@@ -32,6 +34,14 @@ RSpec.describe User, type: :model do
     it 'is invalid without an email' do
       expect(FactoryGirl.build(:user, email: nil)).to_not be_valid
     end
+
+    it 'is invalid without a password' do
+      expect(FactoryGirl.build(:user, password: nil)).to_not be_valid
+    end
+    
+    it 'is invalid with a too short password' do
+      expect(FactoryGirl.build(:user, password: 'foo')).to_not be_valid
+    end
   end
   
   context 'when email is not consistent' do
@@ -47,6 +57,27 @@ RSpec.describe User, type: :model do
       create_user = -> { FactoryGirl.create(:user, email: emails[0]) }
       expect { 2.times { create_user.call } }.to raise_error(ActiveRecord::RecordInvalid)
     end
+  end
+
+  describe '.authenticate' do
+    before(:all) do 
+      User.create(name: 'Tiago', email: 'tiagopog@gmail.com', password: 'foobar')
+    end
+
+    it 'finds the user if their credentials are ok' do
+      expect(User.authenticate('tiagopog@gmail.com', 'foobar')).to be_kind_of(User)
+    end
+
+    it 'does not find the user if their credentials are wrong' do
+      expect(User.authenticate('tiago@gmail.com.br', 'fooba')).to be(nil)
+    end
+  end
+
+  describe '.auth_token' do
+    let(:token) { User.auth_token('tiagopog@gmail.com', 'foobar') }
+
+    it { expect(token).to be_kind_of(String) }
+    it { expect(token.size).to be(32) }
   end
 
   describe '#avatar' do
