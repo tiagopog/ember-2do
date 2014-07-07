@@ -1,4 +1,6 @@
 class Api::V1::UsersController < ApplicationController
+  before_action :authenticate
+
   # POST /api/v1/users.json
   def create
     @user = User.new(params[:user])

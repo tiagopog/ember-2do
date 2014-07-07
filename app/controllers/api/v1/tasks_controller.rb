@@ -1,4 +1,6 @@
 class Api::V1::TasksController < ApplicationController
+  before_action :authenticate
+  
   # GET /api/v1/tasks.json
   def index; end
 

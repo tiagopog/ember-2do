@@ -20,7 +20,7 @@ RSpec.describe Session, type: :model do
   describe '.authenticate' do
     context 'when session is valid' do
       it 'authenticates the session' do
-        expect(Session.authenticate(session.access_token)).to be_kind_of(Session)
+        expect(Session.authenticate(session.access_token)).to be_kind_of(User)
       end
     end
 
@@ -34,6 +34,22 @@ RSpec.describe Session, type: :model do
       it 'does not authenticates an invalid access token' do
         expect(Session.authenticate('foo')).to be_nil
       end
+    end
+  end
+
+  describe '.find_or_create' do
+    context 'when it finds the session' do
+      subject(:existing_session) { Session.find_or_create(session.user) }
+
+      it { expect(existing_session).to be_kind_of(Session) }
+      it { expect(existing_session.access_token.size).to be(40) }
+    end
+
+    context 'when it does not find the session' do
+      subject(:new_session) { Session.find_or_create(session.user) }
+
+      it { expect(new_session).to be_kind_of(Session) }
+      it { expect(new_session.access_token.size).to be(40) }
     end
   end
 

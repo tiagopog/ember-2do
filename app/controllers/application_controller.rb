@@ -1,6 +1,6 @@
 class ApplicationController < ActionController::Base
   protect_from_forgery with: :null_session
-  before_action :authenticate
+  helper_method :authenticate
 
   protected
 
@@ -9,14 +9,14 @@ class ApplicationController < ActionController::Base
   end
 
   def authenticate_token
-    # Note (Tiago): I usually use Redis and an extra ApiKey model to manage 
-    # user access tokens, but for sample purposes I will keep a very simple
-    # auth strategy here.
-    @current_user ||= User.find_by(token: params[:token]) unless params[:token].nil?
+    # TODO: store/check sessions in Redis (low priority).
+    unless params[:access_token].nil?
+      @current_user ||= Session.authenticate(params[:access_token])
+    end
   end
 
   def render_unauthorized
     self.headers['WWW-Authenticate'] = 'Token realm="Application"'
-    render json: { message: 'Bad credentials' }, status: 401
-  end    
+    render json: { message: 'Unauthorized call' }, status: 401
+  end
 end

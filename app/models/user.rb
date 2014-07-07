@@ -17,8 +17,8 @@ class User < ActiveRecord::Base
 
     def auth_token(email, password)
       Digest::SHA1.hexdigest([
-        email, 
-        password, 
+        email,
+        password,
         Rails.application.secrets.secret_key_base].join(':'))
     end
   end

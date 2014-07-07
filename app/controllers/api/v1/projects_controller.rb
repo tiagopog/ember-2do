@@ -1,4 +1,6 @@
 class Api::V1::ProjectsController < ApplicationController
+  before_action :authenticate
+  
   # GET /api/v1/projects.json
   def index; end
 
