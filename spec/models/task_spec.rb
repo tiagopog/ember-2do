@@ -24,7 +24,7 @@ RSpec.describe Task, type: :model do
       expect { FactoryGirl.create(:task, name: nil) }.to raise_error(ActiveRecord::RecordInvalid)
     end
     
-    it 'is invalid without a project' do
+    it 'is invalid without belonging to a project' do
       expect { FactoryGirl.create(:task, project: nil) }.to raise_error(ActiveRecord::RecordInvalid)
     end
   end

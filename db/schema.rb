@@ -13,6 +13,9 @@
 
 ActiveRecord::Schema.define(version: 20140705064906) do
 
+  # These are extensions that must be enabled in order to support this database
+  enable_extension "plpgsql"
+
   create_table "projects", force: true do |t|
     t.string   "name"
     t.integer  "user_id"
@@ -21,18 +24,19 @@ ActiveRecord::Schema.define(version: 20140705064906) do
     t.string   "slug"
   end
 
-  add_index "projects", ["slug"], name: "index_projects_on_slug"
-  add_index "projects", ["user_id"], name: "index_projects_on_user_id"
+  add_index "projects", ["slug"], name: "index_projects_on_slug", using: :btree
+  add_index "projects", ["user_id"], name: "index_projects_on_user_id", using: :btree
 
   create_table "sessions", force: true do |t|
     t.integer  "user_id"
-    t.string   "token"
+    t.string   "access_token"
     t.datetime "expires_at"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
 
-  add_index "sessions", ["user_id"], name: "index_sessions_on_user_id"
+  add_index "sessions", ["access_token", "expires_at"], name: "index_sessions_on_access_token_and_expires_at", using: :btree
+  add_index "sessions", ["user_id"], name: "index_sessions_on_user_id", using: :btree
 
   create_table "tasks", force: true do |t|
     t.integer  "project_id"
@@ -44,9 +48,9 @@ ActiveRecord::Schema.define(version: 20140705064906) do
     t.datetime "updated_at"
   end
 
-  add_index "tasks", ["done", "project_id"], name: "index_tasks_on_done_and_project_id"
-  add_index "tasks", ["priority", "project_id"], name: "index_tasks_on_priority_and_project_id"
-  add_index "tasks", ["project_id"], name: "index_tasks_on_project_id"
+  add_index "tasks", ["done", "project_id"], name: "index_tasks_on_done_and_project_id", using: :btree
+  add_index "tasks", ["priority", "project_id"], name: "index_tasks_on_priority_and_project_id", using: :btree
+  add_index "tasks", ["project_id"], name: "index_tasks_on_project_id", using: :btree
 
   create_table "users", force: true do |t|
     t.string   "name"

@@ -1,9 +1,14 @@
-# Read about factories at https://github.com/thoughtbot/factory_girl
+require 'faker'
 
 FactoryGirl.define do
-  factory :session do
-    user nil
-    token "MyString"
-    expires_at "2014-07-05 02:49:06"
+  factory :session do |f|
+    f.user 
+    f.expires_at 24.hours.from_now
+
+    factory :expired_session do |f|
+      after(:create) do |session|
+        session.update(expires_at: 24.hours.ago)
+      end
+    end
   end
 end

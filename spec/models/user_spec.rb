@@ -10,7 +10,7 @@ RSpec.describe User, type: :model do
     it { expect(user.name).to be_kind_of(String) }
     it { expect(user.email).to be_kind_of(String) }
     it { expect(user.token).to be_kind_of(String) }
-    it { expect(user.token.size).to be(32) }
+    it { expect(user.token.size).to be(40) }
     it { expect(user.avatar_url).to match image_regex }
   end
 
@@ -77,7 +77,7 @@ RSpec.describe User, type: :model do
     let(:token) { User.auth_token('tiagopog@gmail.com', 'foobar') }
 
     it { expect(token).to be_kind_of(String) }
-    it { expect(token.size).to be(32) }
+    it { expect(token.size).to be(40) }
   end
 
   describe '#avatar' do
