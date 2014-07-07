@@ -17,6 +17,6 @@ class ApplicationController < ActionController::Base
 
   def render_unauthorized
     self.headers['WWW-Authenticate'] = 'Token realm="Application"'
-    render json: { message: 'Unauthorized call' }, status: 401
+    render json: { message: 'Unauthorized request' }, status: 401
   end
 end

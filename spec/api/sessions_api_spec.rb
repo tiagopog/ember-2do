@@ -1,12 +1,13 @@
 require 'rails_helper'
 
 RSpec.describe Api::V1::SessionsController do
-  let(:user) { FactoryGirl.create(:user, password: 'foobar') }
+  let(:user) { FactoryGirl.create(:user) }
+  let(:route) { '/api/v1/sessions' }
 
   describe 'POST #create' do
     context 'when crendentials are ok' do
       it 'authenticates the user and returns an access token' do
-        post "/api/v1/sessions", { email: user.email, password: 'foobar' }
+        post route, { email: user.email, password: user.password }
         body = JSON.parse(response.body)
         
         expect(response.status).to eq(200)
@@ -18,7 +19,7 @@ RSpec.describe Api::V1::SessionsController do
 
     context 'when crendentials are invalid' do
       it 'returns an error message' do
-        post "/api/v1/sessions", { email: user.email, password: 'foobarr' }
+        post route, { email: user.email, password: 'foobar' }
         body = JSON.parse(response.body)
         
         expect(response.status).to eq(401)
