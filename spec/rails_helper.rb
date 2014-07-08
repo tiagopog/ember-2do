@@ -26,8 +26,9 @@ RSpec.configure do |config|
   # instead of true.
   config.use_transactional_fixtures = false
 
-  # Include FactoryGirl.
+  config.include Requests::JsonHelpers, type: :request
   config.include FactoryGirl::Syntax::Methods
+  config.include ApiHelper
 
   # Strategy to clean the database.
   DatabaseCleaner.strategy = :truncation
