@@ -82,23 +82,32 @@ RSpec.describe User, type: :model do
 
   describe '#avatar' do
     context 'when avatar_url is set' do
-      it { expect(user.avatar).to be_kind_of(String) }
-      it { expect(user.avatar).to match image_regex }
+      let(:avatar) { user.avatar }
+      
+      it { expect(avatar).to be_kind_of(String) }
+      it { expect(avatar).to match image_regex }
     end
 
     context 'when avatar_url is not set' do
-      subject(:user) { FactoryGirl.build(:user, avatar_url: nil) }
+      let(:avatar) { FactoryGirl.build(:user, avatar_url: nil).avatar }
 
-      it { expect(user.avatar).to be_kind_of(String) }
-      it 'gets the image from Gravatar' do
-        expect(user.avatar).to match gravatar_regex
-      end
+      it { expect(avatar).to be_kind_of(String) }
+      it { expect(avatar).to match gravatar_regex }
     end
   end
 
   describe '#gravatar' do
     it 'gets the image from Gravatar' do
       expect(user.gravatar).to match gravatar_regex
+    end
+  end
+
+  describe '#access_token' do
+    context 'when creates/finds a valid session' do
+      let(:access_token) { user.access_token } 
+      
+      it { expect(access_token).to be_kind_of(String) }
+      it { expect(access_token.size).to be(40) }
     end
   end
 end

@@ -4,11 +4,10 @@ class Api::V1::SessionsController < ApplicationController
     user = User.authenticate(params[:email], params[:password])
     
     if user.blank?
-      render json: { message: 'Unknown user' }, status: 404
+      json({ message: 'Unknown user' }, 404)
     else
-      render json: { message: 'Authentication has succeeded',
-                     access_token: Session.find_or_create(user).access_token }, 
-                     status: 200
+      json({ message: 'Authentication has succeeded',
+             access_token: user.access_token }, 200)
     end
   end
 end

@@ -1,7 +1,8 @@
 require 'rails_helper'
 
 RSpec.describe Project, type: :model do
-  subject(:project) { FactoryGirl.create(:project) }
+  let(:project) { FactoryGirl.create(:project) }
+  let(:project_with_tasks) { FactoryGirl.create(:project_with_tasks) }
 
   context 'when the object is valid' do
     it { expect(project).to be_valid }
@@ -13,7 +14,8 @@ RSpec.describe Project, type: :model do
     end
     
     it 'has many tasks' do
-      expect(FactoryGirl.create(:project_with_tasks).tasks.size).to eq(3)
+      expect(project_with_tasks.tasks.size).to eq(3)
+      expect(project_with_tasks.tasks.first).to be_kind_of(Task)
     end
   end
 
@@ -34,5 +36,15 @@ RSpec.describe Project, type: :model do
     it 'is invalid without an author' do
       expect { FactoryGirl.create(:project, author: nil) }.to raise_error(ActiveRecord::RecordInvalid)
     end
+  end
+
+  describe '.load_with_tasks' do
+    let(:loaded_project) do 
+      Project.load_with_tasks(project_with_tasks.user_id, project_with_tasks.slug)
+    end
+
+    it { expect(loaded_project).to be_kind_of(Project) }
+    it { expect(loaded_project.tasks.size).to eq(3) }
+    it { expect(loaded_project.tasks.first).to be_kind_of(Task) }
   end
 end

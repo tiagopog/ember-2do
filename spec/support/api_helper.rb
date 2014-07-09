@@ -1,9 +1,17 @@
 module ApiHelper
   def user_params
     { user: { 
-      name: Faker::Name.name,
-      email: Faker::Internet.free_email,
-      password: Faker::Internet.password(8) } }
+        name: Faker::Name.name,
+        email: Faker::Internet.free_email,
+        password: Faker::Internet.password(8) } }
+  end
+
+  def project_params
+    { project: { name: Faker::Name.name } }
+  end
+
+  def auth_header(access_token)
+    { 'Authorization' => "Token token=#{access_token}" }
   end
 
   def check_response(response, status, msg)

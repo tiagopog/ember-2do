@@ -4,20 +4,14 @@ class Api::V1::UsersController < ApplicationController
     user = User.new(user_params)
     
     if user.save 
-      render json: { user_id: user.id,
-                     email: user.email,
-                     access_token: access_token(user) }, status: 200
+      json({ user: user, access_token: user.access_token }, 200)
     else
-      render json: { message: 'Unprocessable entity',
-                     errors: user.errors.full_messages }, status: 422
+      json({ message: 'Unprocessable entity',
+             errors: user.errors.full_messages }, 422)
     end
   end
 
   private
-
-  def access_token(user)
-    Session.find_or_create(user).access_token
-  end
 
   def user_params
     params.require(:user).permit(:email, :password, :name)

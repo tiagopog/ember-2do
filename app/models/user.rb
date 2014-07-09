@@ -1,6 +1,7 @@
 class User < ActiveRecord::Base
   attr_accessor :password
 
+  has_many :sessions
   has_many :projects, dependent: :destroy
   has_many :tasks, through: :projects
 
@@ -24,7 +25,12 @@ class User < ActiveRecord::Base
   end
   
   def avatar; self[:avatar_url] || gravatar end
+  
   def gravatar; Gravatar.new(self[:email]).image_url end
+
+  def access_token
+    Session.find_or_create(self).access_token
+  end
 
   private
 

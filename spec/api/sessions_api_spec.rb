@@ -8,8 +8,7 @@ RSpec.describe Api::V1::SessionsController do
     context 'when crendentials are ok' do
       it 'authenticates the user and returns an access token' do
         post route, { email: user.email, password: user.password }
-        
-        expect(response.status).to eq(200)
+        expect(response.status).to be(200)
         expect(json['message']).to eq('Authentication has succeeded')
         expect(json['access_token']).to be_kind_of(String)
         expect(json['access_token'].size).to be(40)
@@ -19,8 +18,7 @@ RSpec.describe Api::V1::SessionsController do
     context 'when crendentials are invalid' do
       it 'returns an error message' do
         post route, { email: user.email, password: 'foobar' }
-        
-        expect(response.status).to eq(404)
+        expect(response.status).to be(404)
         expect(json['message']).to eq('Unknown user')
         expect(json['access_token']).to be_nil
       end
