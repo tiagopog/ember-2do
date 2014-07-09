@@ -24,11 +24,6 @@ RSpec.describe Project, type: :model do
       expect(FactoryGirl.build(:project, name: nil)).to_not be_valid
     end
 
-    it 'is invalid if the slug field is not unique for a given user' do
-      create_project = -> { FactoryGirl.create(:project, slug: 'foobar', user_id: 1) }
-      expect { 2.times { create_project.call } }.to raise_error(ActiveRecord::RecordInvalid)
-    end
-
     it 'sets a new slug when one tries to set it as empty' do
       expect(FactoryGirl.create(:project, slug: nil).slug).to_not be_blank
     end
@@ -39,7 +34,7 @@ RSpec.describe Project, type: :model do
   end
 
   describe '.load_with_tasks' do
-    let(:loaded_project) do 
+    let(:loaded_project) do
       Project.load_with_tasks(project_with_tasks.user_id, project_with_tasks.slug)
     end
 

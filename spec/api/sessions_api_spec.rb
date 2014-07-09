@@ -19,7 +19,7 @@ RSpec.describe Api::V1::SessionsController do
       it 'returns an error message' do
         post route, { email: user.email, password: 'foobar' }
         expect(response.status).to be(404)
-        expect(json['message']).to eq('Unknown user')
+        expect(json['message']).to eq(http_error_msg[404])
         expect(json['access_token']).to be_nil
       end
     end

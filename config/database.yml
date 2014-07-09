@@ -5,16 +5,19 @@ default: &default
   timeout: 5000
   database: agb
 
-development:
-  <<: *default
+localhost: &localhost
   host: localhost
   user: tiagopog
   password: 123
 
+development:
+  <<: *default
+  <<: *localhost
+
 test:
   <<: *default
-  adapter: sqlite3
-  database: db/test.sqlite3
+  <<: *localhost
+  database: agb_test
 
 production:
   <<: *default

@@ -3,7 +3,6 @@ require 'rails_helper'
 RSpec.describe Api::V1::UsersController do
   let(:params) { user_params }
   let(:route) { '/api/v1/users' }
-  let(:http_error_msg) { 'Unprocessable entity' }
   
   describe 'POST #create' do
     context 'when fields are ok' do
@@ -24,7 +23,7 @@ RSpec.describe Api::V1::UsersController do
       it 'is invalid without params' do
         post route
         expect(response.status).to be(400)
-        expect(json['message']).to eq('Bad request')
+        expect(json['message']).to eq(http_error_msg[400])
       end
 
       %w(email password name).each do |field|
@@ -32,19 +31,19 @@ RSpec.describe Api::V1::UsersController do
           error_msg = "#{field.titleize} can't be blank"
           params[:user][field.to_sym] = nil
           post route, params
-          check_validation_error(response, http_error_msg, error_msg)
+          check_validation_error(response, http_error_msg[422], error_msg)
         end
       end
 
       it 'is invalid without a proper email address' do
         params[:user][:email] = 'tiagopog'
         post route, params
-        check_validation_error(response, http_error_msg, 'Email is not a valid email')
+        check_validation_error(response, http_error_msg[422], 'Email is not a valid email')
       end
 
       it 'is invalid if the email is already in use' do
         2.times { post route, params }
-        check_validation_error(response, http_error_msg, 'Email has already been taken')
+        check_validation_error(response, http_error_msg[422], 'Email has already been taken')
       end
     end
   end

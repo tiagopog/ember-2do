@@ -2,6 +2,8 @@ require 'rails_helper'
 
 RSpec.describe Task, type: :model do
   subject(:task) { FactoryGirl.create(:task) }
+  let(:project) { task.project }
+  let(:user) { project.author }
 
   context 'when the object is valid' do
     it { expect(task).to be_valid }
@@ -26,6 +28,30 @@ RSpec.describe Task, type: :model do
     
     it 'is invalid without belonging to a project' do
       expect { FactoryGirl.create(:task, project: nil) }.to raise_error(ActiveRecord::RecordInvalid)
+    end
+  end
+
+  describe '.load_with_project' do
+    context 'when no filter is applied' do
+      let(:loaded_tasks) { Task.load_with_project(project.id, user.id) }
+
+      it { expect(loaded_tasks).to be_kind_of(ActiveRecord::Relation) }
+      it { expect(loaded_tasks.size).to eq(1) }
+      it { expect(loaded_tasks.first).to be_kind_of(Task) }
+    end
+
+    context 'when filtered by tasks which are done' do
+      subject(:task) { FactoryGirl.create(:task, done: true) }
+      let(:project) { task.project }
+      let(:user) { project.author }
+      let(:loaded_tasks) { Task.load_with_project(project.id, user.id, true) }
+      let(:tasks_not_found) { Task.load_with_project(project.id, user.id, false) }
+      
+      it { expect(loaded_tasks).to be_kind_of(ActiveRecord::Relation) }
+      it { expect(loaded_tasks.size).to eq(1) }
+      it { expect(loaded_tasks.first).to be_kind_of(Task) }
+
+      it { expect(tasks_not_found).to be_empty }
     end
   end
 end

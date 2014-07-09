@@ -8,13 +8,19 @@ RSpec.describe Api::V1::ProjectsController do
   let(:route) { '/api/v1/projects' }
   let(:route_with_id) { "#{route}/#{project.slug}" }
   let(:foobar_route) { "#{route}/foobar" }
-  let(:http_error_msg) { 'Unprocessable entity' }
 
   shared_context 'when request is not authenticated' do
     it 'fails and returns an error code/message' do
       get route
       expect(response.status).to eq(401)
-      expect(json['message']).to eq('Unauthorized request')
+      expect(json['message']).to eq(http_error_msg[401])
+    end
+  end
+
+  def check_project
+    expect(response.status).to be(200)
+    %w(id user_id name slug).each do |e|
+      expect(json['project'][e]).to be_truthy
     end
   end
 
@@ -41,24 +47,20 @@ RSpec.describe Api::V1::ProjectsController do
         it 'is invalid without params' do
           post route, nil, auth_header(access_token)
           expect(response.status).to be(400)
-          expect(json['message']).to eq('Bad request')
+          expect(json['message']).to eq(http_error_msg[400])
         end
 
         it 'is invalid without a name' do
           params[:project][:name] = ''
           post route, params, auth_header(access_token)
-          check_validation_error(response, http_error_msg, "Name can't be blank")
+          check_validation_error(response, http_error_msg[422], "Name can't be blank")
         end
       end
 
       context 'validation has succeeded' do
         it 'creates a new project' do
           post route, params, auth_header(access_token)
-          
-          expect(response.status).to be(200)
-          %w(id user_id name slug).each do |e|
-            expect(json['project'][e]).to be_truthy
-          end
+          check_project
         end
       end
     end
@@ -87,7 +89,7 @@ RSpec.describe Api::V1::ProjectsController do
         it 'return an error message' do
           get foobar_route, nil, auth_header(access_token)
           expect(response.status).to be(404)
-          expect(json['message']).to eq('Unknown project')
+          expect(json['message']).to eq(http_error_msg[404])
         end
       end
     end
@@ -101,24 +103,20 @@ RSpec.describe Api::V1::ProjectsController do
         it 'is invalid without finding the project' do
           patch foobar_route, nil, auth_header(access_token)
           expect(response.status).to be(400)
-          expect(json['message']).to eq('Bad request')
+          expect(json['message']).to eq(http_error_msg[400])
         end
 
         it 'is invalid without a name' do
           params[:project][:name] = ''
           patch route_with_id, params, auth_header(access_token)
-          check_validation_error(response, http_error_msg, "Name can't be blank")
+          check_validation_error(response, http_error_msg[422], "Name can't be blank")
         end
       end
 
       context 'validation has succeeded' do
         it 'creates a new project' do
           patch route_with_id, params, auth_header(access_token)
-          
-          expect(response.status).to be(200)
-          %w(id user_id name slug).each do |e|
-            expect(json['project'][e]).to be_truthy
-          end
+          check_project
           expect(json['project']['slug']).to_not eq(project.slug)
         end
       end
@@ -132,11 +130,7 @@ RSpec.describe Api::V1::ProjectsController do
       context 'when project is found' do
         it 'removes the project' do
           delete route_with_id, nil, auth_header(access_token)
-          # TOPO: apply DRY here...
-          expect(response.status).to be(200)
-          %w(id user_id name slug).each do |e|
-            expect(json['project'][e]).to be_truthy
-          end
+          check_project
         end
       end
 
@@ -144,7 +138,7 @@ RSpec.describe Api::V1::ProjectsController do
         it 'returns an error message' do
           delete foobar_route, nil, auth_header(access_token)
           expect(response.status).to be(422)
-          expect(json['message']).to eq(http_error_msg)
+          expect(json['message']).to eq(http_error_msg[422])
         end
       end
     end

@@ -6,7 +6,7 @@ class Api::V1::UsersController < ApplicationController
     if user.save 
       json({ user: user, access_token: user.access_token }, 200)
     else
-      json({ message: 'Unprocessable entity',
+      json({ message: http_error_msg[422],
              errors: user.errors.full_messages }, 422)
     end
   end

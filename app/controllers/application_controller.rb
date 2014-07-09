@@ -1,7 +1,7 @@
 class ApplicationController < ActionController::Base
   rescue_from Exception, with: :error_render_method
   protect_from_forgery with: :null_session
-  helper_method :authenticate, :json
+  helper_method :authenticate, :json, :http_error_msg
 
   protected
 
@@ -21,10 +21,17 @@ class ApplicationController < ActionController::Base
 
   def render_unauthorized
     self.headers['WWW-Authenticate'] = 'Token realm="Application"'
-    render json: { message: 'Unauthorized request' }, status: 401
+    render json: { message: http_error_msg[401] }, status: 401
   end
 
   def error_render_method
-    json({ message: 'Bad request' }, 400)
+    json({ message: http_error_msg[400] }, 400)
+  end
+
+  def http_error_msg
+    { 400 => 'Bad request',
+      401 => 'Unauthorized request', 
+      404 => 'Not found',
+      422 => 'Unprocessable entity' }
   end
 end

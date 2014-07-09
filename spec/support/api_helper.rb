@@ -10,6 +10,20 @@ module ApiHelper
     { project: { name: Faker::Name.name } }
   end
 
+  def task_params
+    { task: { 
+        name: Faker::Name.name,
+        description: Faker::Internet.free_email,
+        priority: [:high, :medium, :low].sample } }
+  end
+
+  def http_error_msg
+    { 400 => 'Bad request',
+      401 => 'Unauthorized request', 
+      404 => 'Not found',
+      422 => 'Unprocessable entity' }
+  end
+
   def auth_header(access_token)
     { 'Authorization' => "Token token=#{access_token}" }
   end

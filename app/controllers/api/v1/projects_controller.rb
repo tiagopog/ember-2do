@@ -14,7 +14,7 @@ class Api::V1::ProjectsController < ApplicationController
     if project.save
       json({ project: project }, 200)
     else
-      json({ message: 'Unprocessable entity',
+      json({ message:  http_error_msg[422],
              errors: project.errors.full_messages }, 422)
     end
   end
@@ -24,7 +24,7 @@ class Api::V1::ProjectsController < ApplicationController
     project = Project.load_with_tasks(@current_user.id, params[:id])
     
     if project.blank?
-      json({ message: 'Unknown project' }, 404)
+      json({ message: http_error_msg[404] }, 404)
     else
       json({ project: project, tasks: project.tasks }, 200)
     end
@@ -38,7 +38,7 @@ class Api::V1::ProjectsController < ApplicationController
     if project && project.update(project_params)
       json({ project: project }, 200)
     else
-      json({ message: 'Unprocessable entity',
+      json({ message: http_error_msg[422],
              errors: project.errors.full_messages }, 422)
     end
   end
@@ -51,7 +51,7 @@ class Api::V1::ProjectsController < ApplicationController
     if project && project.delete
       json({ project: project }, 200)
     else
-      json({ message: 'Unprocessable entity' }, 422)
+      json({ message: http_error_msg[422] }, 422)
     end
   end
 
