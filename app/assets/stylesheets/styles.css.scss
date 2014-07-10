@@ -1,0 +1,79 @@
+// mixins
+@mixin centralize($width) {
+  width: $width;
+  display: block;
+  margin: 0 auto;
+}
+
+// application
+html {
+  height: 100%;
+  background-color: #6f5499;
+  background-image: linear-gradient(to bottom,#563d7c 0,#6f5499 100%);
+  background-repeat: repeat-x;
+}
+#app-container {
+  width: 100%;
+  float: left;
+  padding: 10px 20px;
+  margin: 0;
+
+  h1.section-title {
+    position: relative;
+    margin-top: 0;
+    margin-bottom: 30px;
+    color: #fff;
+    small { color: #ccc; }
+  }
+}
+
+// projects
+#projects-list {
+  padding: 20px 20px 0;
+  border: 1px dashed #ccc;
+  
+  .project {
+    height: 80px;
+    padding: 10px;
+    margin: 0 20px 20px 0;
+    border-bottom: 3px solid #ccc;
+    border-radius: 6px;
+    background-color: #fff;
+    font-size: 1.2em;
+    color: #333;
+    text-decoration: none;
+    
+    &:hover {
+      background-color: #f1f1f1;
+      border-color: #999;
+    }
+  }
+}
+
+// project
+form#project-edit {
+  margin-bottom: 20px;
+}
+#project-actions {
+  position: absolute;
+  right: 0;
+  top: -4px;
+
+  li { 
+    list-style: none;
+    display: inline-block;
+  }
+}
+#tasks-tabs {
+  margin-bottom: 20px;
+  a, li.active a { color: #fff; }
+  a:hover { color: #666; }
+}
+#project-tasks {
+  border-radius: 6px;
+  background-color: #fff;
+}
+#add-new-task {
+  width: 100%;
+  text-align: center;
+}

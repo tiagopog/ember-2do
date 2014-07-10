@@ -1,0 +1,88 @@
+<script type="text/x-handlebars">
+  <%= render 'shared/navbar' %>
+  
+  <div id="app-container">
+    {{outlet}}
+  </div>
+</script>
+
+<script type="text/x-handlebars" id="about">
+  About!
+</script>
+
+<script type="text/x-handlebars" id="projects">
+  <h1 class="section-title">Projects <small>(working)</small></h1>
+  
+  <div class="row container-fluid" id="projects-list">
+    {{#each}}
+      {{#link-to 'project' this class="col-md-2 project"}}
+        {{name}}
+      {{/link-to}}
+    {{/each}}
+  </div>
+</script>
+
+<script type="text/x-handlebars" id="project">
+  <h1 class="section-title">
+    {{#if isEditing}}
+      {{partial 'project/edit'}}
+      {{name}} <small>{{format-date created_at}}</small>
+    {{else}}
+      {{name}} <small>{{format-date created_at}}</small>
+      
+      <ul id="project-actions">
+        <li><button {{action 'edit'}} class="btn btn-default">Edit</button></li>
+        <li><button {{action 'destroy'}} class="btn btn-danger">Remove</button></li>
+      </ul>
+    {{/if}}
+  </h1>
+
+  {{partial 'project/tasks'}}
+</script>
+
+<script type="text/x-handlebars" id="project/_edit">
+  <form class="form-inline" role="form" id="project-edit">
+    {{input type="text" class="form-control input-lg" value=name}}
+    <button {{action 'doneEditing'}} class="btn btn-success btn-lg">Done</button>
+  </form>
+</script>
+
+<script type="text/x-handlebars" id="project/_tasks">
+  <div class="table-responsive">
+    <ul class="nav nav-pills" id="tasks-tabs">
+      <li class="active"><a href="#">To do ({{tasks.length}})</a></li>
+      <li><a href="#">Done (0)</a></li>
+    </ul>
+
+    <table class="table" id="project-tasks">
+      <thead>
+        <tr>
+          <th>#</th>
+          <th>Task</th>
+          <th>Priority</th>
+        </tr>
+      </thead>
+      <tbody>
+        {{#if tasks}}
+          {{#each tasks}}
+            <tr>
+              <td>{{input type="checkbox"}}</td>
+              <td>{{name}}</td>
+              <td>{{priority}}</td>
+            </tr>
+          {{/each}}
+        {{else}}
+          <tr>
+            <tr>
+              <td> No task found.</td>
+            </tr>
+          </tr>
+        {{/if}}
+      </tbody>
+    </table>
+
+    <p id="add-new-task">
+      <button type="button" class="btn btn-default btn-lg">Add new task!</button>
+    </p>
+  </div>
+</script>

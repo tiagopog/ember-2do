@@ -1,6 +1,6 @@
 class ApplicationController < ActionController::Base
-  rescue_from Exception, with: :error_render_method
   protect_from_forgery with: :null_session
+  rescue_from Exception, with: :error_render_method
   helper_method :authenticate, :json, :http_error_msg
 
   protected

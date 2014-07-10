@@ -1,4 +1,6 @@
 Rails.application.routes.draw do
+  root to: 'static#main'
+
   namespace :api, defaults: { format: :json } do
     namespace :v1 do
       resource :sessions, only: [:create]
