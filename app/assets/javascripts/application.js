@@ -8,8 +8,4 @@
 //= require_self
 //= require agb_application
 
-window.AgbApplication = Ember.Application.create();
-
-Ember.Handlebars.helper('format-date', function(date) {
-  return moment(date).fromNow();
-});
+window.App = Ember.Application.create();
