@@ -14,8 +14,8 @@ RSpec.describe Api::V1::UsersController do
         expect(json['user']['email']).to eq(params[:user][:email])
         expect(json['user']['id']).to be_kind_of(Fixnum)
         
-        expect(json['access_token']).to be_kind_of(String)
-        expect(json['access_token'].size).to be(40)
+        expect(json['user']['access_token']).to be_kind_of(String)
+        expect(json['user']['access_token'].size).to be(40)
       end
     end
 
@@ -23,7 +23,6 @@ RSpec.describe Api::V1::UsersController do
       it 'is invalid without params' do
         post route
         expect(response.status).to be(400)
-        expect(json['message']).to eq(http_error_msg[400])
       end
 
       %w(email password name).each do |field|
@@ -31,19 +30,19 @@ RSpec.describe Api::V1::UsersController do
           error_msg = "#{field.titleize} can't be blank"
           params[:user][field.to_sym] = nil
           post route, params
-          check_validation_error(response, http_error_msg[422], error_msg)
+          check_validation_error(response, error_msg)
         end
       end
 
       it 'is invalid without a proper email address' do
         params[:user][:email] = 'tiagopog'
         post route, params
-        check_validation_error(response, http_error_msg[422], 'Email is not a valid email')
+        check_validation_error(response, 'Email is not a valid email')
       end
 
       it 'is invalid if the email is already in use' do
         2.times { post route, params }
-        check_validation_error(response, http_error_msg[422], 'Email has already been taken')
+        check_validation_error(response, 'Email has already been taken')
       end
     end
   end

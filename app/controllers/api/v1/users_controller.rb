@@ -1,13 +1,14 @@
 class Api::V1::UsersController < ApplicationController
+  respond_to :json
+
   # POST /api/v1/users
   def create
     user = User.new(user_params)
     
     if user.save 
-      json({ user: user, access_token: user.access_token }, 200)
+      respond_with user, location: api_v1_users_url(user), status: 200
     else
-      json({ message: http_error_msg[422],
-             errors: user.errors.full_messages }, 422)
+      render json: { errors: user.errors.full_messages }, status: 422
     end
   end
 

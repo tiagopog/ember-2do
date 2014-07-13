@@ -1,16 +1,12 @@
 class Api::V1::TasksController < ApplicationController
-  before_action :authenticate
+  before_action :authenticate!
+  respond_to :json
   
   # GET /api/v1/:project_id/tasks
   def index
     tasks = 
       Task.load_with_project(params[:project_id], @current_user.id, params[:done])
-    
-    if tasks.blank?
-      json({ message: http_error_msg[404] }, 404)
-    else
-      json({ project: tasks.first.project, tasks: tasks }, 200)
-    end
+    respond_with tasks, status: tasks.blank? ? 404 : 200
   end
 
   # POST /api/v1/:project_id/tasks
@@ -19,18 +15,18 @@ class Api::V1::TasksController < ApplicationController
     task.project_id = params[:project_id]
     
     if task.save
-      json({ task: task }, 200)
+      respond_with task, location: api_v1_project_tasks_url(task), status: 200
     else
-      json({ message: http_error_msg[422],
-             errors: task.errors.full_messages }, 422)
+      render json: { errors: task.errors.full_messages }, status: 422
     end
   end
 
   # GET /api/v1/:project_id/tasks/:id
   def show
-    json({ task: @current_user.tasks.find(params[:id]) }, 200)
+    task = @current_user.tasks.find(params[:id])
+    respond_with task, status: 200
   rescue
-    json({ message: http_error_msg[404] }, 404)
+    respond_with task, status: 404
   end
 
   # PATCH /api/v1/:project_id/tasks/:id
@@ -48,24 +44,16 @@ class Api::V1::TasksController < ApplicationController
   # DELETE /api/v1/tasks/:id
   def destroy
     task = @current_user.tasks.find(params[:id])
-
-    if task && task.delete
-      json({ task: task }, 200)
-    else
-      json({ message: http_error_msg[422] }, 422)
-    end
-  rescue
-    json({ message: http_error_msg[404] }, 404)
+    respond_with task, status: 204 if task.delete
   end
 
   private
 
   def update_task(params)
     if @task && @task.update(params)
-      json({ task: @task }, 200)
+      respond_with @task, status: 204
     else
-      json({ message: http_error_msg[422],
-             errors: @task.errors.full_messages }, 422)
+      render json: { errors: @task.errors.full_messages }, status: 422
     end
   end
 
