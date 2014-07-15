@@ -17,7 +17,7 @@ RSpec.describe Api::V1::ProjectsController do
 
   def check_project
     expect(response.status).to be(200)
-    %w(id user_id name slug).each do |e|
+    %w(id name slug created_at).each do |e|
       expect(json['project'][e]).to be_truthy
     end
   end

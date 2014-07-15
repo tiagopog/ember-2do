@@ -8,10 +8,11 @@ class Session < ActiveRecord::Base
   class << self
     def authenticate(access_token)
       session =
-        eager_load(:user)
+        eager_load(user: [{ projects: [:tasks] }])
         .where('access_token = ? AND expires_at > ?',
                 access_token,
-                Time.zone.now).first
+                Time.zone.now)
+        .order('tasks.done ASC, tasks.priority ASC').first
       session.user unless session.blank?
     end
 

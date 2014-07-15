@@ -35,7 +35,7 @@ RSpec.describe Project, type: :model do
 
   describe '.load_with_tasks' do
     let(:loaded_project) do
-      Project.load_with_tasks(project_with_tasks.user_id, project_with_tasks.slug)
+      Project.load_with_tasks(project_with_tasks.author, project_with_tasks.slug)
     end
 
     it { expect(loaded_project).to be_kind_of(Project) }

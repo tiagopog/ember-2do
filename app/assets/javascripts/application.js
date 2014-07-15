@@ -8,4 +8,4 @@
 //= require_self
 //= require agb_application
 
-window.App = Ember.Application.create();
+App = Ember.Application.create();

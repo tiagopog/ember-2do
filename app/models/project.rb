@@ -10,8 +10,8 @@ class Project < ActiveRecord::Base
   validates :name, presence: true
   validates :slug, presence: true, uniqueness: { scope: :author }
 
-  def self.load_with_tasks(user_id, slug)
-    where(user_id: user_id, slug: slug)
+  def self.load_with_tasks(user, slug)
+    where(user_id: user.id, slug: slug)
       .eager_load(:tasks)
       .order('tasks.done ASC, tasks.priority ASC')
       .first

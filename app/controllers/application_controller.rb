@@ -1,5 +1,6 @@
 class ApplicationController < ActionController::Base
   protect_from_forgery with: :null_session
+  
   rescue_from Exception, with: :error_render_method
 
   protected

@@ -31,11 +31,10 @@ RSpec.describe Task, type: :model do
     end
   end
 
-  describe '.load_with_project' do
+  describe '.filter' do
     context 'when no filter is applied' do
-      let(:loaded_tasks) { Task.load_with_project(project.id, user.id) }
+      let(:loaded_tasks) { Task.filter(project.tasks) }
 
-      it { expect(loaded_tasks).to be_kind_of(ActiveRecord::Relation) }
       it { expect(loaded_tasks.size).to eq(1) }
       it { expect(loaded_tasks.first).to be_kind_of(Task) }
     end
@@ -44,10 +43,10 @@ RSpec.describe Task, type: :model do
       subject(:task) { FactoryGirl.create(:task, done: true) }
       let(:project) { task.project }
       let(:user) { project.author }
-      let(:loaded_tasks) { Task.load_with_project(project.id, user.id, true) }
-      let(:tasks_not_found) { Task.load_with_project(project.id, user.id, false) }
+      let(:loaded_tasks) { Task.filter(project.tasks, true) }
+      let(:tasks_not_found) { Task.filter(project.tasks, false) }
       
-      it { expect(loaded_tasks).to be_kind_of(ActiveRecord::Relation) }
+      it { expect(loaded_tasks).to be_kind_of(Array) }
       it { expect(loaded_tasks.size).to eq(1) }
       it { expect(loaded_tasks.first).to be_kind_of(Task) }
 
