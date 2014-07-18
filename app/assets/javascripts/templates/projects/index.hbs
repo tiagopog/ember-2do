@@ -1,0 +1,17 @@
+<h1 class="section-title">Projects <small>(working: {{projects.length}})</small></h1>
+  
+<div class="row container-fluid" id="projects-list">
+  {{#each projects}}
+    {{#link-to 'project' this class="col-md-2 project"}}
+      {{name}}
+      <small>Tasks: {{tasks.length}}</small>
+    {{/link-to}}
+  {{/each}}
+</div>
+
+{{#if isAdding}}
+  {{input type="text" class="form-control input-lg" valueBinding=newProjectName}}
+  <button {{action create}} class="btn btn-success btn-lg">Save</button>
+{{else}}
+  <button {{action new}} class="btn btn-success btn-lg">Add New Project</button>
+{{/if}}

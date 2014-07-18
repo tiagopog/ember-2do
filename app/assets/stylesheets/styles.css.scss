@@ -30,9 +30,9 @@ html {
 // projects
 #projects-list {
   padding: 20px 20px 0;
-  border: 1px dashed #ccc;
   
   .project {
+    position: relative;
     height: 80px;
     padding: 10px;
     margin: 0 20px 20px 0;
@@ -43,6 +43,16 @@ html {
     color: #333;
     text-decoration: none;
     
+    small {
+      position: absolute;
+      bottom: 10px;
+      left: 10px;
+      padding: 3px 5px;
+      background-color: #5cb85c;
+      border-radius: 6px;
+      color: #fff;
+      font-size: 12px;
+    }
     &:hover {
       background-color: #f1f1f1;
       border-color: #999;
@@ -51,7 +61,7 @@ html {
 }
 
 // project
-form#project-edit {
+.section-title form.form-inline {
   margin-bottom: 20px;
 }
 #project-actions {

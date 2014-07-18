@@ -1,8 +1,8 @@
 class Api::V1::ProjectsController < ApplicationController
-  respond_to :json
-
   before_action :authenticate!
   before_action :find_project, only: [:show, :update, :destroy]
+
+  respond_to :json
   
   # GET /api/v1/projects
   def index
@@ -45,6 +45,7 @@ class Api::V1::ProjectsController < ApplicationController
 
   private
 
+  # Find within the eager loaded projects.
   def find_project
     @project = @current_user.projects.select do |e| 
       e.slug == params[:id]

@@ -30,7 +30,14 @@ RSpec.describe Api::V1::ProjectsController do
         get route, nil, auth_header(user)
         
         expect(response.status).to be(200)
+        
         expect(json['projects']).to be_truthy
+        expect(json['projects'][0]['task_ids']).to be_truthy
+        expect(json['tasks']).to be_truthy
+
+        expect(json['projects']).to be_kind_of(Array)
+        expect(json['projects'][0]['task_ids']).to be_kind_of(Array)
+        expect(json['tasks']).to be_kind_of(Array)
       end
     end
   end
@@ -73,10 +80,11 @@ RSpec.describe Api::V1::ProjectsController do
           
           expect(json['project']['id']).to be_truthy
           expect(json['project']['slug']).to eq(project.slug)
+          expect(json['project']['task_ids']).to be_truthy
           
-          expect(json['project']['tasks']).to be_truthy
-          expect(json['project']['tasks'][0]['name']).to be_kind_of(String)
-          expect(json['project']['tasks'][0]['project_id']).to eq(project.id)
+          expect(json['tasks']).to be_kind_of(Array)
+          expect(json['tasks'][0]['name']).to be_kind_of(String)
+          expect(json['tasks'][0]['project_id']).to eq(project.id)
         end
       end
 

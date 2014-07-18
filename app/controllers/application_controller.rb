@@ -1,7 +1,8 @@
 class ApplicationController < ActionController::Base
   protect_from_forgery with: :null_session
-  
-  rescue_from Exception, with: :error_render_method
+  rescue_from Exception, with: :render_bed_request
+  rescue_from ActiveRecord::RecordNotFound, with: :render_not_found
+
 
   protected
 
@@ -20,7 +21,11 @@ class ApplicationController < ActionController::Base
     render json: { message: 'Unauthorized request' }, status: 401
   end
 
-  def error_render_method
+  def render_bed_request
     render json: { message: 'Bad request' }, status: 400
+  end
+  
+  def render_not_found
+    render json: { message: 'Not Found' }, status: 404 
   end
 end

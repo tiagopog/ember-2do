@@ -1,9 +1,9 @@
 class Api::V1::TasksController < ApplicationController
-  respond_to :json
-
   before_action :authenticate!
   before_action :find_project, only: [:index, :create]
   before_action :find_task, except: [:index, :create]
+  
+  respond_to :json
   
   # GET /api/v1/:project_id/tasks
   # GET /api/v1/:project_id/tasks/filter/:done
@@ -52,6 +52,7 @@ class Api::V1::TasksController < ApplicationController
     done == 'done' unless done.nil?
   end
 
+  # Find within the eager loaded projects.
   def find_project
     @project = @current_user.projects.select do |e| 
       e.slug == params[:project_id]
@@ -60,8 +61,6 @@ class Api::V1::TasksController < ApplicationController
 
   def find_task
     @task = @current_user.tasks.find(params[:id])
-  rescue ActiveRecord::RecordNotFound
-    render json: nil, status: 404 
   end
 
   def update_task(params)
