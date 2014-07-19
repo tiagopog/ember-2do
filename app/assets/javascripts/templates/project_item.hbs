@@ -1,0 +1,8 @@
+{{#link-to 'project' this class="project-link"}}
+  {{name}}
+  <small class="task-counter">Tasks: {{tasks.length}}</small>
+  
+  <button {{action 'delete'}} type="button" class="btn btn-danger">
+    <span class="glyphicon glyphicon-trash"></span>
+  </button>  
+{{/link-to}}

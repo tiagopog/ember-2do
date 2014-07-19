@@ -25,13 +25,20 @@ html {
     color: #fff;
     small { color: #ccc; }
   }
+  input, textarea, button {
+    font-size: 16px;
+  }
+  button { text-transform:lowercase; }
+  button.btn-success { border-bottom: 3px solid #42a042; }
 }
+.hidden { display: none !important; }
+.clear { clear: both; }
 
 // projects
 #projects-list {
   padding: 20px 20px 0;
   
-  .project {
+  li.project {
     position: relative;
     height: 80px;
     padding: 10px;
@@ -40,28 +47,54 @@ html {
     border-radius: 6px;
     background-color: #fff;
     font-size: 1.2em;
-    color: #333;
-    text-decoration: none;
+    list-style: none;
     
-    small {
-      position: absolute;
-      bottom: 10px;
-      left: 10px;
-      padding: 3px 5px;
-      background-color: #5cb85c;
-      border-radius: 6px;
-      color: #fff;
-      font-size: 12px;
-    }
     &:hover {
       background-color: #f1f1f1;
       border-color: #999;
     }
-  }
+    &.hovered button.btn-danger { display: block !important; }
+    a.project-link {
+      float: left;
+      width: 100%;
+      height: 100%;
+      color: #333;
+      text-decoration: none;
+
+      small.task-counter {
+        position: absolute;
+        bottom: 10px;
+        left: 10px;
+        padding: 3px 5px;
+        background-color: #5cb85c;
+        border-radius: 6px;
+        color: #fff;
+        font-size: 12px;
+      }
+      button.btn-danger {
+        position: absolute;
+        right: 10px;
+        top: 10px;
+        width: 25px;
+        height: 25px;
+        display: none;
+        
+        span.glyphicon-trash {
+          position: relative;
+          left: -8px;
+          top: -3px;
+        }
+      } // button.btn-danger
+    } // a.project-link
+  } // li.project
+} // #projects-list 
+
+#project-errors {
+  padding: 5px 5px 5px 26px !important;
 }
 
 // project
-.section-title form.form-inline {
+.section-title form#project-form {
   margin-bottom: 20px;
 }
 #project-actions {

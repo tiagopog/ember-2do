@@ -1,7 +1,9 @@
-# App.ProjectsRoute = Ember.Route.extend
-#   model: -> @store.find('project')
-    
+App.ProjectsRoute = Ember.Route.extend
+  model: -> 
+    projects = @store.findAll('project')
+    console.log projects
+    @set('projects', projects)
 
-# App.ProjectRoute = Ember.Route.extend
-#   model: (params) -> @store.findQuery('project', { slug: params.slug }).then (data) ->
-#     data['content'][0]['_data']
+App.ProjectRoute = Ember.Route.extend
+  model: (params) -> 
+    @store.find('project', params.id)

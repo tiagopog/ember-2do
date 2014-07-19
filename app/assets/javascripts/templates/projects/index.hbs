@@ -2,16 +2,12 @@
   
 <div class="row container-fluid" id="projects-list">
   {{#each projects}}
-    {{#link-to 'project' this class="col-md-2 project"}}
-      {{name}}
-      <small>Tasks: {{tasks.length}}</small>
-    {{/link-to}}
+    {{#if name}} {{view App.ProjectItemView}} {{/if}}
   {{/each}}
 </div>
 
 {{#if isAdding}}
-  {{input type="text" class="form-control input-lg" valueBinding=newProjectName}}
-  <button {{action create}} class="btn btn-success btn-lg">Save</button>
+  {{view App.ProjectFormView id="project-form"}}
 {{else}}
-  <button {{action new}} class="btn btn-success btn-lg">Add New Project</button>
+  <button {{action 'new'}} class="btn btn-success btn-lg">Add New Project</button>
 {{/if}}

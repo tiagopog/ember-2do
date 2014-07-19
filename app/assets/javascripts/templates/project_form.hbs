@@ -1,2 +1,13 @@
-{{input type="text" class="form-control input-lg" value=name}}
-<button {{action 'doneEditing'}} class="btn btn-success btn-lg">Done</button>
+{{#if errors}}
+<ul class="alert alert-danger col-md-2" id="project-errors">
+  {{#each errors}}
+    <li>{{this.name}}</li>
+  {{/each}}
+</ul>
+{{/if}}
+
+
+<div class="clear"></div>
+
+{{input  value=name type="text" class="form-control input-lg" placeholder="Project name..."}}
+<button {{action 'save'}} class="btn btn-success btn-lg">Save</button>

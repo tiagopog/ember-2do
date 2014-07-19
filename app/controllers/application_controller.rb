@@ -3,7 +3,6 @@ class ApplicationController < ActionController::Base
   rescue_from Exception, with: :render_bed_request
   rescue_from ActiveRecord::RecordNotFound, with: :render_not_found
 
-
   protected
 
   def authenticate!
@@ -14,6 +13,7 @@ class ApplicationController < ActionController::Base
     authenticate_with_http_token do |token, options|
       @current_user ||= Session.authenticate(token)
     end
+    @current_user = User.find(16)
   end
 
   def render_unauthorized

@@ -1,8 +1,6 @@
 <h1 class="section-title">
   {{#if isEditing}}
-    {{!-- <form class="form-inline" role="form" id="project-edit"> --}}
-      {{view App.ProjectFormView}}  
-    {{!-- </form> --}}
+    {{view App.ProjectFormView id="project-form"}}
   {{else}}
     {{name}} <small>{{format-date created_at}}</small>
     <ul id="project-actions">
@@ -57,7 +55,7 @@
     {{#if isAddingTask}}
       <button type="button" class="btn btn-success btn-lg" {{action 'doneAddingTask'}}>Done</button>
     {{else}}
-      <button type="button" class="btn btn-success btn-lg" {{action 'addTask'}}>Add new task!</button>
+      <button type="button" class="btn btn-success btn-lg" {{action 'addTask'}}>Add new task</button>
     {{/if}}
   </p>
 </div>
