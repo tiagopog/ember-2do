@@ -1,8 +1,7 @@
 App.ProjectsIndexController = Ember.ObjectController.extend({
   errors: Ember.makeArray()
   isAdding: false
-  new: ->
-    @set('isAdding', true)
+  new: -> @set('isAdding', true)
   save: -> 
     self = @
     project = self.store.createRecord('project', { name: @get('name')})
@@ -26,13 +25,10 @@ App.ProjectIndexController = Ember.ObjectController.extend({
   isEditing: false
   isAddingTask: false
   actions:
-    edit: ->
-      @set('isEditing', true)
+    edit: -> @set('isEditing', true)
     save: ->
       @get('model').save()
       @set('isEditing', false)
-    addTask: ->
-      @set('isAddingTask', true)
-    doneAddingTask: ->
-      @set('isAddingTask', false)
+    addTask: -> @set('isAddingTask', true)
+    doneAddingTask: -> @set('isAddingTask', false)
 })

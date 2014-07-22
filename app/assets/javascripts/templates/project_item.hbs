@@ -1,5 +1,6 @@
 {{#link-to 'project' this class="project-link"}}
   {{name}}
+  {{log tasks}}
   <small class="task-counter">Tasks: {{tasks.length}}</small>
   
   <button {{action 'delete'}} type="button" class="btn btn-danger">

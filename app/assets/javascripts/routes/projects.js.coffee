@@ -1,8 +1,6 @@
 App.ProjectsRoute = Ember.Route.extend
   model: -> 
-    projects = @store.findAll('project')
-    console.log projects
-    @set('projects', projects)
+    @store.findAll('project')
 
 App.ProjectRoute = Ember.Route.extend
   model: (params) -> 
