@@ -4,8 +4,16 @@
   {{else}}
     {{name}} <small>{{format-date created_at}}</small>
     <ul id="project-actions">
-      <li><button {{action 'edit'}} class="btn btn-default">Edit</button></li>
-      <li><button {{action 'destroy'}} class="btn btn-danger">Remove</button></li>
+      <li>
+        <button {{action 'edit'}} class="btn btn-default">
+          <span class="glyphicon glyphicon-pencil"></span>Edit
+        </button>
+      </li>
+      <li>
+      <button {{action 'destroy'}} class="btn btn-danger">
+        <span class="glyphicon glyphicon-trash"></span>Remove
+      </button>
+      </li>
     </ul>
   {{/if}}
 </h1>

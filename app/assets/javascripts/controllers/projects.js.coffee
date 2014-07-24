@@ -16,6 +16,9 @@ App.ProjectsIndexController = Ember.ObjectController.extend({
     , (feedback) ->
       self.set('errors', Ember.makeArray(feedback))
     )
+  delete: (project) ->
+    if confirm('Are you sure to delete?')
+      project.destroyRecord()
 })
 
 App.ProjectIndexController = Ember.ObjectController.extend({
@@ -25,10 +28,15 @@ App.ProjectIndexController = Ember.ObjectController.extend({
   isEditing: false
   isAddingTask: false
   actions:
-    edit: -> @set('isEditing', true)
+    edit: ->
+      @set('isEditing', true)
+      @set('currentName', @get('model')._data.name)
     save: ->
       @get('model').save()
       @set('isEditing', false)
+    doneEditing: ->
+      @set('isEditing', false)
+      @set('name', @get('currentName'))
     addTask: -> @set('isAddingTask', true)
     doneAddingTask: -> @set('isAddingTask', false)
 })

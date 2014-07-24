@@ -30,6 +30,11 @@ html {
   }
   button { text-transform:lowercase; }
   button.btn-success { border-bottom: 3px solid #42a042; }
+  button.btn-success .glyphicon-ok-sign {
+    position: relative;
+    top: 3px;
+    margin-right: 5px;
+  }
 }
 .hidden { display: none !important; }
 .clear { clear: both; }
@@ -89,9 +94,7 @@ html {
   } // li.project
 } // #projects-list 
 
-#project-errors {
-  padding: 5px 5px 5px 26px !important;
-}
+#project-errors { padding: 5px 5px 5px 26px !important; }
 
 // project
 .section-title form#project-form {
@@ -105,6 +108,13 @@ html {
   li { 
     list-style: none;
     display: inline-block;
+    
+    button.btn-default { border-bottom: 3px solid #ccc; }
+    button.btn-danger { border-bottom: 3px solid #be302b; }
+    button span { 
+      position: relative;
+      margin-right: 6px;
+    }
   }
 }
 #tasks-tabs {

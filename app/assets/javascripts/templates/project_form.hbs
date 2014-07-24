@@ -9,5 +9,8 @@
 
 <div class="clear"></div>
 
-{{input  value=name type="text" class="form-control input-lg" placeholder="Project name..."}}
-<button {{action 'save'}} class="btn btn-success btn-lg">Save</button>
+{{input  value=name type="text" class="form-control input-lg" placeholder="Project name..." on="keyDown"}}
+
+<button {{action 'save'}} class="btn btn-success btn-lg">
+  <span class="glyphicon glyphicon-ok-sign"></span>Save
+</button>
