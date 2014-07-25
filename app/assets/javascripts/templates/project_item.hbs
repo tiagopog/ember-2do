@@ -1,9 +1,9 @@
 {{#link-to 'project' this class="project-link"}}
   {{name}}
-  {{log tasks}}
+  
   <small class="task-counter">Tasks: {{tasks.length}}</small>
   
-  <button {{action 'delete' this bubbles=false}} type="button" class="btn btn-danger">
+  <button {{action 'destroy' this bubbles=false}} type="button" class="btn btn-danger">
     <span class="glyphicon glyphicon-trash"></span>
   </button>  
 {{/link-to}}

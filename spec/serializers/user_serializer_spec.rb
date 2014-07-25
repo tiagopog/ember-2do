@@ -9,7 +9,7 @@ describe UserSerializer do
         |{"user":{
         |    "id":999,
         |    "name":"Tiago Guedes",
-        |    "email":"tiagopog@gmail.com",
+        |    "email":"foobar@gmail.com",
         |    "avatar_url":"http://gravatar.com/foobar.jpg",
         |    "created_at":"2014-07-23T14:04:00.255Z",
         |    "access_token":"#{access_token}"

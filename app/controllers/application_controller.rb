@@ -13,7 +13,7 @@ class ApplicationController < ActionController::Base
     authenticate_with_http_token do |token, options|
       @current_user ||= Session.authenticate(token)
     end
-    @current_user = User.find(16)
+    # @current_user = User.find(16)
   end
 
   def render_unauthorized

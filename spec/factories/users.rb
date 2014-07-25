@@ -20,7 +20,7 @@ FactoryGirl.define do
     factory :user_to_serialize do |f|
       f.id 999
       f.name 'Tiago Guedes'
-      f.email 'tiagopog@gmail.com'
+      f.email 'foobar@gmail.com'
       f.avatar_url 'http://gravatar.com/foobar.jpg'
       f.created_at '2014-07-23T14:04:00.255Z'
     end

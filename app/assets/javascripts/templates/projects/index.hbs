@@ -1,4 +1,6 @@
-<h1 class="section-title">Projects <small>(working: {{model.length}})</small></h1>
+<h1 class="section-title">
+  Projects <small>(active: {{model.length}})</small>
+</h1>
   
 <div class="row container-fluid" id="projects-list">
   {{#each model}}
@@ -9,5 +11,7 @@
 {{#if isAdding}}
   {{view App.ProjectFormView id="project-form"}}
 {{else}}
-  <button {{action 'new'}} class="btn btn-success btn-lg">Add New Project</button>
+  <button {{action 'new'}} class="btn btn-success btn-lg">
+    Add New Project
+  </button>
 {{/if}}

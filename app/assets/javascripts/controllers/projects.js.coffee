@@ -16,8 +16,8 @@ App.ProjectsIndexController = Ember.ObjectController.extend({
     , (feedback) ->
       self.set('errors', Ember.makeArray(feedback))
     )
-  delete: (project) ->
-    if confirm('Are you sure to delete?')
+  destroy: (project) ->
+    if confirm(are_you_sure(project.get('name')))
       project.destroyRecord()
 })
 
@@ -30,13 +30,21 @@ App.ProjectIndexController = Ember.ObjectController.extend({
   actions:
     edit: ->
       @set('isEditing', true)
-      @set('currentName', @get('model')._data.name)
+      @set('currentName', @get('model').get('name'))
     save: ->
       @get('model').save()
       @set('isEditing', false)
     doneEditing: ->
       @set('isEditing', false)
       @set('name', @get('currentName'))
+    destroy: ->
+      if confirm(are_you_sure(@get('model').get('name')))
+        @get('model').destroyRecord()
+        @transitionTo('projects')
     addTask: -> @set('isAddingTask', true)
     doneAddingTask: -> @set('isAddingTask', false)
 })
+
+# TODO: add the i18n lib
+are_you_sure = (name) -> 
+  "Are you sure to delete \"#{name}\"?"

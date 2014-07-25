@@ -9,7 +9,3 @@ App.ApplicationAdapter = DS.ActiveModelAdapter.extend({
   #host: 'http://localhost:3000'
   namespace: 'api/v1'
 })
-
-App.ProjectSerializer = DS.RESTSerializer.extend({
-  primaryKey: 'slug'
-})
