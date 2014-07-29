@@ -11,8 +11,7 @@ App.ProjectFormView = Ember.View.extend
   templateName: 'project_form'
   tagName: 'form'
   classNames: ['form-inline']
-  submit: ->
-    @get('controller').send('save')
+  submit: -> @get('controller').send('save')
   keyDown: (key) ->
     if key.keyCode == 27
       @get('controller').send('doneEditing')

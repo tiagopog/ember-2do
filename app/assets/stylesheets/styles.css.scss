@@ -119,18 +119,52 @@ html {
 }
 #tasks-tabs {
   margin-bottom: 20px;
+  
   a, li.active a { color: #fff; }
   a:hover { color: #666; }
 }
 #project-tasks {
   border-radius: 6px;
   background-color: #fff;
+
+  .done-col {
+    width: 2%;
+    
+    input {
+      display: block;
+      @include centralize(14px);
+    }
+  }
+  .task-col { width: 85%; }
+  .priority-col, .priority { text-align: center; }
+  .task {
+    .priority span {
+      @include centralize(80%);
+      height: 18px;
+      border-radius: 10px;
+      color: #fff;
+      font-size: 0.9em;
+    }
+    .high-task span { background-color: #5cb85c; }
+    .medium-task span { background-color: #428bca; }
+    .low-task span { background-color: #5bc0de; }
+    .btn {
+      width: 25px;
+      height: 25px;
+      padding: 0;
+      font-size: 10px;
+      text-align: center;
+    }
+  }
 }
+#priority-sel-col .ember-select { @include centralize(80%); }
 #add-new-task {
   width: 100%;
   text-align: center;
 }
 #new-task {
-  border: none;
+  width: 100%;
+  border: 1px dashed #ccc;
+  border-radius: 4px;
   outline: none;
 }

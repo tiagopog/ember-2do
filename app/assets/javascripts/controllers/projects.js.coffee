@@ -42,9 +42,25 @@ App.ProjectIndexController = Ember.ObjectController.extend({
         @get('model').destroyRecord()
         @transitionTo('projects')
     addTask: -> @set('isAddingTask', true)
-    doneAddingTask: -> @set('isAddingTask', false)
+    doneAddingTask: ->
+      self = @
+      task = fix_task(@get('newTask'), self)
+      task.validate().then ->
+        task.save().then ->
+          self.get('model').get('tasks').pushObjects([task])
+      @set('newTask.name', null)
+      @set('newTask.priority', 'medium')
+      @set('isAddingTask', false)
 })
 
 # TODO: add the i18n lib
 are_you_sure = (name) -> 
   "Are you sure to delete \"#{name}\"?"
+
+fix_task = (task, self) ->
+  task.project_id = self.get('content').get('slug')
+  task = self.store.createRecord('task', {
+    name: task.name
+    priority: task.priority
+    project_id: task.project_id
+  })

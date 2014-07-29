@@ -9,3 +9,17 @@ App.ApplicationAdapter = DS.ActiveModelAdapter.extend({
   #host: 'http://localhost:3000'
   namespace: 'api/v1'
 })
+
+
+App.TaskAdapter = DS.ActiveModelAdapter.extend({
+  namespace: 'api/v1'
+  createRecord: (store, type, record) ->
+    data = {}
+    # TODO: try do build paths overriding the this.buidURL method
+    path = "#{@namespace}/projects/#{record.get('project_id')}/tasks"
+    
+    serializer = store.serializerFor(type.typeKey)
+    serializer.serializeIntoHash(data, type, record)
+    
+    @ajax(path, 'POST', { data: data })
+})

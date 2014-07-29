@@ -27,18 +27,23 @@
   <table class="table" id="project-tasks">
     <thead>
       <tr>
-        <th>#</th>
-        <th>Task</th>
-        <th>Priority</th>
+        <th class="done-col"></th>
+        <th class="task-col"></th>
+        <th class="priority-col">Priority</th>
+        <th>Actions</th>
       </tr>
     </thead>
     <tbody>
       {{#if tasks}}
         {{#each tasks}}
-          <tr>
-            <td>{{input type="checkbox"}}</td>
+          <tr class="task">
+            <td class="done-col">{{input type="checkbox"}}</td>
             <td>{{name}}</td>
-            <td>{{priority}}</td>
+            {{priority-helper priority}}
+            <td>
+              <button class="btn btn-default glyphicon glyphicon-pencil"></button>
+              <button class="btn btn-danger glyphicon glyphicon-remove"></button>
+            </td>
           </tr>
         {{/each}}
       {{else}}
@@ -51,9 +56,7 @@
       
       {{#if isAddingTask}}
       <tr>
-        <td></td>
-        <td>{{input type="text" value=newTask.name id="new-task"}}</td>
-        <td>{{view Ember.Select content=priority value=newTask.priority}}</td>
+        {{view App.TaskFormView id='new-task-form'}}
       </tr>
       {{/if}}
     </tbody>

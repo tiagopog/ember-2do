@@ -1,6 +1,6 @@
 ## About
 
-This project is a result of a test that was assigned to me during my application to work at [Agenda Beleza](www.agendabeleza.com.br). It doesn't intend to be another solution of task management, although it's totally functional, my thought here was to make it a source so other developers can check how to:
+This project is a result of a test that was assigned to me during my application to work at [Agenda Beleza](www.agendabeleza.com.br). It doesn't intend to be another solution of task management, although it's totally functional. My thought here was to open source it so other developers can check how to create single page apps with Ember + APIs in Rails.
 
 ### Backend
 
