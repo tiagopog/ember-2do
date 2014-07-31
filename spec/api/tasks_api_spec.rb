@@ -8,7 +8,7 @@ RSpec.describe Api::V1::TasksController do
   let(:route) { "/api/v1/projects/#{project.slug}/tasks" }
   let(:route_with_id) { "#{route}/#{task.id}" }
   let(:not_found_route) { "#{route}/9999" }
-  
+
   shared_context 'when request is not authenticated' do
     it 'fails and returns an error code/message' do
       get route
@@ -31,7 +31,7 @@ RSpec.describe Api::V1::TasksController do
       context 'when no filter is applied' do
         it 'returns the list of tasks owned by the current user' do
           get route, nil, auth_header(user)
-          
+
           expect(response.status).to be(200)
           expect(json['tasks']).to be_truthy
           expect(json['tasks'].size).to be > 0
@@ -41,7 +41,7 @@ RSpec.describe Api::V1::TasksController do
       context 'when it filters by undone tasks' do
         it 'returns the list of tasks owned by the current user' do
           get "#{route}/filter/undone", nil, auth_header(user)
-          
+
           expect(response.status).to be(200)
           expect(json['tasks']).to be_truthy
           expect(json['tasks'][0]['done']).to be(false)
@@ -50,6 +50,15 @@ RSpec.describe Api::V1::TasksController do
         it 'returns an error message with no task found' do
           get "#{route}/filter/done", nil, auth_header(user)
           expect(response.status).to be(404)
+        end
+      end
+
+      context 'when a callback is set' do
+        it 'returns a JSON response encapsulated by a function' do
+          get route, { callback: 'someFunction' }, auth_header(user)
+
+          expect(response.status).to be(200)
+          expect(response.body).to match(/^someFunction\(\{/)
         end
       end
     end
@@ -89,6 +98,15 @@ RSpec.describe Api::V1::TasksController do
         it 'loads the data from a given project' do
           get route_with_id, nil, auth_header(user)
           check_task          
+        end
+      end
+
+      context 'when a callback is set' do
+        it 'returns a JSON response encapsulated by a function' do
+          get route, { callback: 'someFunction' }, auth_header(user)
+
+          expect(response.status).to be(200)
+          expect(response.body).to match(/^someFunction\(\{/)
         end
       end
 

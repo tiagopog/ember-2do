@@ -1,6 +1,6 @@
 class ApplicationController < ActionController::Base
   protect_from_forgery with: :null_session
-  # rescue_from Exception, with: :render_bed_request
+  rescue_from Exception, with: :render_bed_request
   rescue_from ActiveRecord::RecordNotFound, with: :render_not_found
 
   protected
@@ -13,7 +13,6 @@ class ApplicationController < ActionController::Base
     authenticate_with_http_token do |token, options|
       @current_user ||= Session.authenticate(token)
     end
-    @current_user = User.find(16)
   end
 
   def render_unauthorized
@@ -24,7 +23,7 @@ class ApplicationController < ActionController::Base
   def render_bed_request
     render json: { message: 'Bad request' }, status: 400
   end
-  
+
   def render_not_found
     render json: { message: 'Not Found' }, status: 404 
   end

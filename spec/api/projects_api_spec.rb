@@ -28,9 +28,9 @@ RSpec.describe Api::V1::ProjectsController do
     context 'when request is authenticated' do
       it 'returns the list of projects owned by the current user' do
         get route, nil, auth_header(user)
-        
+
         expect(response.status).to be(200)
-        
+
         expect(json['projects']).to be_truthy
         expect(json['projects'][0]['task_ids']).to be_truthy
         expect(json['tasks']).to be_truthy
@@ -38,6 +38,15 @@ RSpec.describe Api::V1::ProjectsController do
         expect(json['projects']).to be_kind_of(Array)
         expect(json['projects'][0]['task_ids']).to be_kind_of(Array)
         expect(json['tasks']).to be_kind_of(Array)
+      end
+
+      context 'when a callback is set' do
+        it 'returns a JSON response encapsulated by a function' do
+          get route, { callback: 'someFunction' }, auth_header(user)
+
+          expect(response.status).to be(200)
+          expect(response.body).to match(/^someFunction\(\{/)
+        end
       end
     end
   end
@@ -77,14 +86,23 @@ RSpec.describe Api::V1::ProjectsController do
           get route_with_id, nil, auth_header(user)
 
           expect(response.status).to be(200)
-          
+
           expect(json['project']['id']).to be_truthy
           expect(json['project']['slug']).to eq(project.slug)
           expect(json['project']['task_ids']).to be_truthy
-          
+
           expect(json['tasks']).to be_kind_of(Array)
           expect(json['tasks'][0]['name']).to be_kind_of(String)
           expect(json['tasks'][0]['project_id']).to eq(project.id)
+        end
+
+        context 'when a callback is set' do
+          it 'returns a JSON response encapsulated by a function' do
+            get route, { callback: 'someFunction' }, auth_header(user)
+
+            expect(response.status).to be(200)
+            expect(response.body).to match(/^someFunction\(\{/)
+          end
         end
       end
 
