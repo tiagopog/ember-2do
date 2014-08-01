@@ -9,6 +9,8 @@ gem 'pg'
 # backend
 gem 'jbuilder', '~> 2.0'
 gem 'friendly_id'
+gem 'rack-jsonp-middleware', require: 'rack/jsonp'
+gem 'rack-cors', require: 'rack/cors'
 
 # frontend
 gem 'uglifier', '>= 1.3.0'

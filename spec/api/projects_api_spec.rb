@@ -41,8 +41,8 @@ RSpec.describe Api::V1::ProjectsController do
       end
 
       context 'when a callback is set' do
-        it 'returns a JSON response encapsulated by a function' do
-          get route, { callback: 'someFunction' }, auth_header(user)
+        it 'returns a JSON encapsulated by a JS function' do
+          get "#{route}.jsonp", { callback: 'someFunction' }, auth_header(user)
 
           expect(response.status).to be(200)
           expect(response.body).to match(/^someFunction\(\{/)
@@ -97,8 +97,8 @@ RSpec.describe Api::V1::ProjectsController do
         end
 
         context 'when a callback is set' do
-          it 'returns a JSON response encapsulated by a function' do
-            get route, { callback: 'someFunction' }, auth_header(user)
+          it 'returns a JSON encapsulated by a JS function' do
+            get "#{route}.jsonp", { callback: 'someFunction' }, auth_header(user)
 
             expect(response.status).to be(200)
             expect(response.body).to match(/^someFunction\(\{/)

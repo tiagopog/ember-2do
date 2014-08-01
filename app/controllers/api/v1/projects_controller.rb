@@ -6,9 +6,7 @@ class Api::V1::ProjectsController < ApplicationController
 
   # GET /api/v1/projects
   def index
-    respond_with @current_user.projects,
-      status: 200,
-      callback: params['callback']
+    respond_with @current_user.projects, status: 200
   end
 
   # POST /api/v1/projects
@@ -27,9 +25,7 @@ class Api::V1::ProjectsController < ApplicationController
 
   # GET /api/v1/projects/:id
   def show
-    respond_with @project,
-      status: @project.blank? ? 404 : 200,
-      callback: params['callback']
+    respond_with @project, status: @project.blank? ? 404 : 200
   end
 
   # PATCH /api/v1/projects/:id
