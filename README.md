@@ -7,7 +7,7 @@ This project is a result of a test that was assigned to me during my application
 - Build JSON RESTful APIs with Rails;
 - Test APIs (models, controllers and serializers);
 - Work with token authentication via HTTP headers;
-- Allow Ajax Cross-origin requests on API via JSONP and CORS;
+- Allow Ajax Cross-Origin requests on API via JSONP and CORS;
 - Build DRYed controllers with proper action responses.
 
 ### Frontend

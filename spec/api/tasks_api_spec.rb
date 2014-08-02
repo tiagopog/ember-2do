@@ -55,7 +55,7 @@ RSpec.describe Api::V1::TasksController do
 
       context 'when a callback is set' do
         it 'returns a JSON response encapsulated by a function' do
-          get route, { callback: 'someFunction' }, auth_header(user)
+          get "#{route}.jsonp", { callback: 'someFunction' }, auth_header(user)
 
           expect(response.status).to be(200)
           expect(response.body).to match(/^someFunction\(\{/)
@@ -103,7 +103,7 @@ RSpec.describe Api::V1::TasksController do
 
       context 'when a callback is set' do
         it 'returns a JSON response encapsulated by a function' do
-          get route, { callback: 'someFunction' }, auth_header(user)
+          get "#{route}.jsonp", { callback: 'someFunction' }, auth_header(user)
 
           expect(response.status).to be(200)
           expect(response.body).to match(/^someFunction\(\{/)

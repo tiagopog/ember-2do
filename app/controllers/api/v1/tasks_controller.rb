@@ -9,9 +9,7 @@ class Api::V1::TasksController < ApplicationController
   # GET /api/v1/:project_id/tasks/filter/:done
   def index
     tasks = Task.filter(@project.tasks, fix_done(params[:done]))
-    respond_with tasks, 
-      status: tasks.blank? ? 404 : 200,
-      callback: params['callback']
+    respond_with tasks, status: tasks.blank? ? 404 : 200
   end
 
   # POST /api/v1/:project_id/tasks
